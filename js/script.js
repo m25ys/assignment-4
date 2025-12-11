@@ -73,6 +73,8 @@ onReady(() => {
 	setupSmoothScroll();
 	setupContactForm();
 	setupSectionNavigation();
+	setupNavToggle();
+	setupScrollProgress();
 	setupAnimations();
 	setupProjectCatalog();
 	setupAPI();
@@ -222,6 +224,52 @@ function setupSectionNavigation() {
 	});
 }
 
+// Responsive nav toggle
+function setupNavToggle() {
+	const nav = document.querySelector('.site-nav');
+	const toggle = document.getElementById('navToggle');
+	if (!nav || !toggle) return;
+
+	function closeNav() {
+		nav.classList.remove('open');
+		toggle.setAttribute('aria-expanded', 'false');
+	}
+
+	toggle.addEventListener('click', () => {
+		const isOpen = nav.classList.toggle('open');
+		toggle.setAttribute('aria-expanded', String(isOpen));
+	});
+
+	nav.querySelectorAll('a').forEach(link =>
+		link.addEventListener('click', closeNav)
+	);
+
+	window.addEventListener('resize', () => {
+		if (window.innerWidth > 900) closeNav();
+	});
+}
+
+// Scroll progress + back-to-top button
+function setupScrollProgress() {
+	const bar = document.getElementById('scrollBar');
+	const backBtn = document.getElementById('backToTop');
+
+	function update() {
+		const scrollTop = window.scrollY;
+		const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+		const percent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+		if (bar) bar.style.width = `${percent}%`;
+		if (backBtn) backBtn.classList.toggle('visible', scrollTop > 240);
+	}
+
+	window.addEventListener('scroll', () => requestAnimationFrame(update));
+	update();
+
+	backBtn?.addEventListener('click', () => {
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+	});
+}
+
 // IntersectionObserver animations
 function setupAnimations() {
 	if (!('IntersectionObserver' in window)) {
@@ -307,10 +355,6 @@ function setupProjectCatalog() {
 					<p>${p.description}</p>
 					<div class="tag-list">
 						${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}
-					</div>
-					<div class="project-actions">
-						${p.live ? `<a href="${p.live}" class="btn btn-ghost" target="_blank" rel="noopener">Live</a>` : `<button class="btn btn-ghost" type="button" disabled aria-disabled="true">Live</button>`}
-						${p.code ? `<a href="${p.code}" class="btn btn-ghost" target="_blank" rel="noopener">Code</a>` : `<button class="btn btn-ghost" type="button" disabled aria-disabled="true">Code</button>`}
 					</div>
 				</div>
 			</article>

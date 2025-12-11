@@ -11,12 +11,21 @@
     <script src="js/script.js" defer></script>
 </head>
 <body>
+	<div class="scroll-progress" aria-hidden="true">
+		<span id="scrollBar"></span>
+	</div>
 	<header class="site-header" id="top">
 		<div class="container header-inner">
 			<a class="logo" href="#top" aria-label="Go to top">
 				<span class="logo-dot"></span>
 				<span>Mohammed</span>
 			</a>
+
+			<button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+				<span class="nav-toggle-bar"></span>
+				<span class="nav-toggle-bar"></span>
+				<span class="nav-toggle-bar"></span>
+			</button>
 
 			<nav class="site-nav" aria-label="Primary">
 				<ul>
@@ -45,6 +54,7 @@
 					<div class="hero-cta">
 						<a href="#projects" class="btn btn-primary">View My Work</a>
 						<button id="aiSuggestionBtn" class="btn btn-ghost">AI Suggestion</button>
+						<a id="cvButton" class="btn btn-ghost" href="assets/cv.pdf" target="_blank" rel="noopener">View CV</a>
 					</div>
 					<div class="visitor-card">
 						<div class="visitor-row">
@@ -215,5 +225,6 @@
 			<p class="muted">© <span id="year"></span> Mohammed. All rights reserved.</p>
 		</div>
 	</footer>
+	<button id="backToTop" class="back-to-top" aria-label="Back to top">↑</button>
 </body>
 </html>
